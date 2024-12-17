@@ -4,111 +4,107 @@
 
 #include "gtest.h"
 
-
-TEST(TStack, can_create_stack_with_positive_size)
+TEST(LLStack, can_create_stack)
 {
-  ASSERT_NO_THROW(TStack<int> m(5));
+    ASSERT_NO_THROW(LLStack<int> m);
 }
 
-TEST(TStack, throws_when_create_stack_with_negative_length)
-{
-	ASSERT_ANY_THROW(TStack<int> m(-5));
+TEST(LLStack, can_create_copied_stack) {
+    LLStack<int> m;
+    m.push(1);
+    ASSERT_NO_THROW(LLStack<int> m1(m));
 }
 
-TEST(TStack, can_create_copied_stack)
-{
-	TStack<int> m(5);
-
-	ASSERT_NO_THROW(TStack<int> m1(m));
+TEST(LLStack, empty_stack) {
+    LLStack<int> m;
+    EXPECT_TRUE(m.isEmpty());
 }
 
-TEST(TStack, copied_stack_is_equal_to_source_one)
-{
-	TStack<int> m(5);
-	TStack<int> m1(m);
-	EXPECT_EQ(m, m1);
+TEST(LLStack, no_empty_stack) {
+    LLStack<int> m;
+    m.push(1);
+    EXPECT_FALSE(m.isEmpty());
 }
 
-TEST(TStack, empty_stack)
-{
-    TStack<int>m(5);
-    ASSERT_NO_THROW(m.Empty() == true);
+TEST(LLStack, full_stack) {
+    LLStack<int> m;
+    EXPECT_FALSE(m.isFull());
 }
 
-TEST(TStack, no_empty_stack)
-{
-    TStack<int>m(5);
-    m.Push(1);
-    ASSERT_NO_THROW(m.Empty() == false);
-}
-TEST(TStack, full_stack)
-{
-    TStack<int>m(2);
-    m.Push(5);
-    m.Push(2);
-    ASSERT_NO_THROW(m.Full() == true);
-}
-TEST(TStack, no_full_stack) {
-    TStack<int>m(5);
-    m.Push(5);
-    m.Push(10);
-    ASSERT_NO_THROW(m.Full() == false);
-}
-TEST(TStack, empty_stack_with_pop_element) {
-    TStack<int>m(1);
-    m.Push(2);
-    m.Pop();
-    ASSERT_NO_THROW(m.Empty() == true);
-}
-TEST(TStack, pop_function) {
-    TStack<int>m(3);
-    m.Push(2);
-    m.Push(3);
-    m.Push(10);
-    int a = 3;
-    m.Pop();
-    ASSERT_NO_THROW(m.Top() == a);
+TEST(LLStack, no_full_stack) {
+    LLStack<int> m;
+    m.push(5);
+    m.push(10);
+    EXPECT_FALSE(m.isFull());
 }
 
-TEST(TStack, clear_stack) {
-    TStack<int>m(2);
-    m.Push(5);
-    m.clear();
-    ASSERT_NO_THROW(m.Empty() == true);
-}
-TEST(TStack, compare_stacks) {
-    TStack<int>m(2);
-    m.Push(5);
-    m.Push(2);
-    TStack<int>m1(m);
-    ASSERT_NO_THROW(m == m1);
-
-}
-TEST(TStack, no_compare_stack) {
-    TStack<int>m(2);
-    TStack<int>m1(m);
-    m.Push(5);
-    m.Push(10);
-    m1.Push(10);
-    m1.Push(5);
-    ASSERT_NO_THROW(m != m1);
+TEST(LLStack, empty_stack_with_pop_element) {
+    LLStack<int> m;
+    m.push(2);
+    m.pop();
+    EXPECT_TRUE(m.isEmpty());
 }
 
-TEST(TStack, check_clear_stack) {
-    TStack<int>m(5);
-    m.Push(2);
-    m.Push(3);
-    m.clear();
-    ASSERT_NO_THROW(m.Empty());
+TEST(LLStack, pop_function) {
+    LLStack<int> m;
+    m.push(3);
+    m.push(10);
+    m.pop();
+    EXPECT_EQ(m.top(), 3);
 }
 
-TEST(TStack, stacks_with_different_size_are_not_equal)
-{
-    const int size1 = 5, size2 = 10;
-    TStack<int> s1(size1), s2(size2);
-    for (int i = 0; i < size1; i++) s1.Push(i);
-    for (int j = 0; j < size2; j++) s2.Push(j);
-    EXPECT_EQ(s1 != s2, 1);
+TEST(LLStack, clear_stack) {
+    LLStack<int> m;
+    m.push(5);
+    m.clr();
+    EXPECT_TRUE(m.isEmpty());
+}
+
+TEST(LLStack, compare_stacks) {
+    LLStack<int> m;
+    m.push(5);
+    m.push(2);
+
+    LLStack<int> m1(m);
+    EXPECT_TRUE(m == m1);
+}
+
+TEST(LLStack, no_compare_stack) {
+    LLStack<int> m;
+    LLStack<int> m1;
+    m.push(5);
+    m.push(10);
+
+    m1.push(10);
+    m1.push(5);
+
+    EXPECT_TRUE(m != m1);
+}
+
+TEST(LLStack, throws_when_try_pop_elem_from_empty_stack) {
+    LLStack<int> m;
+    EXPECT_ANY_THROW(m.pop());
+}
+
+TEST(LLStack, throws_when_try_push_elem_when_no_memory) {
+    LLStack<int> m;
+    ASSERT_NO_THROW(m.push(3));
+}
+
+TEST(LLStack, copied_stack_is_equal_to_source_one) {
+    LLStack<int> m;
+    m.push(1);
+    m.push(2);
+    LLStack<int> m1(m);
+    EXPECT_TRUE(m == m1);
+}
+
+TEST(LLStack, stacks_with_different_content_not_equal) {
+    LLStack<int> m;
+    LLStack<int> m1;
+    m.push(1);
+    m1.push(2);
+    EXPECT_TRUE(m != m1);
 }
 
 TEST(TCalc, add_in_calc)

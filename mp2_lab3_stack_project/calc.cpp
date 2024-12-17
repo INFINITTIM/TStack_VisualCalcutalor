@@ -2,8 +2,8 @@
 
 TCalc::TCalc()
 {
-	TStack<double> stack_with_numbers;
-	TStack<char> Stack_with_symbol;
+	LLStack<double> stack_with_numbers;
+	LLStack<char> Stack_with_symbol;
 }
 
 void TCalc::SetInfix(std::string str)
@@ -44,22 +44,22 @@ double TCalc::Factorial(double n)
 }
 
 bool TCalc::Check(std::string str) {
-	TStack<char> s;
+	LLStack<char> s;
 
 	for (int i = 0; i < str.size(); i++) {
 		if (str[i] == '(') {
-			s.Push('(');
+			s.push('(');
 			if (str[i + 1] == ')')
 				return false;
 		}
 		else if (str[i] == ')') {
-			if (s.Empty()) {
+			if (s.isEmpty()) {
 				return false; 
 			}
-			s.Pop();
+			s.pop();
 		}
 	}
-	return s.Empty();
+	return s.isEmpty();
 }
 
 /*
@@ -145,8 +145,8 @@ double TCalc::Calculator()
 	if (!Check(infix))
 		throw - 1;
 	std::string infix_time = '(' + infix + ')';
-	Stack_with_symbol.clear();
-	stack_with_numbers.clear();
+	Stack_with_symbol.clr();
+	stack_with_numbers.clr();
 	std::string check_string = "";
 
 	double const pi = 3.1415926535;
@@ -161,25 +161,25 @@ double TCalc::Calculator()
 			check_string += tmp;
 			if (check_string == "sin")
 			{
-				Stack_with_symbol.Push(SIN);
+				Stack_with_symbol.push(SIN);
 				check_string.clear();
 				i++;
 			}
 			else if (check_string == "cos")
 			{
-				Stack_with_symbol.Push(COS);
+				Stack_with_symbol.push(COS);
 				check_string.clear();
 				i++;
 			}
 			else if (check_string == "exp")
 			{
-				Stack_with_symbol.Push(EXP);
+				Stack_with_symbol.push(EXP);
 				check_string.clear();
 				i++;
 			}
 			else if (check_string == "pi")
 			{
-				stack_with_numbers.Push(pi);
+				stack_with_numbers.push(pi);
 			}
 		}
 
@@ -188,7 +188,7 @@ double TCalc::Calculator()
 		{
 			size_t idx;
 			double num = std::stod(&infix_time[i], &idx);
-			stack_with_numbers.Push(num);
+			stack_with_numbers.push(num);
 			i += idx - 1; // Увеличиваем индекс на количество прочитанных символов
 		}
 
@@ -199,20 +199,20 @@ double TCalc::Calculator()
 			{
 				size_t idx;
 				double num = std::stod(&infix_time[i+1], &idx);
-				stack_with_numbers.Push(num);
+				stack_with_numbers.push(num);
 				i += idx;
 			}
-			Stack_with_symbol.Push(OPENED_BRECKET);
+			Stack_with_symbol.push(OPENED_BRECKET);
 		}
 
 		// Обработка закрывающей скобки
 		if (tmp == ')')
 		{
-			Function a = Stack_with_symbol.Pop();
+			Function a = Stack_with_symbol.pop();
 			while (a != OPENED_BRECKET && a != SIN && a != COS && a != EXP)
 			{
-				double second_number = stack_with_numbers.Pop();
-				double first_number = stack_with_numbers.Pop();
+				double second_number = stack_with_numbers.pop();
+				double first_number = stack_with_numbers.pop();
 				double res = 0;
 
 				switch (a)
@@ -235,14 +235,14 @@ double TCalc::Calculator()
 					res = pow(first_number, second_number);
 					break;
 				}
-				stack_with_numbers.Push(res);
-				a = Stack_with_symbol.Pop();
+				stack_with_numbers.push(res);
+				a = Stack_with_symbol.pop();
 			}
 
 			// Обработка функций
 			if (a == SIN || a == COS || a == EXP)
 			{
-				double func_number_rad = stack_with_numbers.Pop();
+				double func_number_rad = stack_with_numbers.pop();
 				//double func_number_rad = func_number * (pi / 180);
 				double ress = 0;
 
@@ -284,7 +284,7 @@ double TCalc::Calculator()
 					ress = std::round(ress * 100000) / 100000;
 					break;
 				}
-				stack_with_numbers.Push(ress);
+				stack_with_numbers.push(ress);
 			}
 			//continue;
 		}
@@ -302,12 +302,12 @@ double TCalc::Calculator()
 			case '^': op = DEGREE; break;
 			}
 
-			while (!Stack_with_symbol.Empty() && Priority(op) <= Priority(Stack_with_symbol.Top()))
+			while (!Stack_with_symbol.isEmpty() && Priority(op) <= Priority(Stack_with_symbol.top()))
 			{
-				double second_number = stack_with_numbers.Pop();
-				double first_number = stack_with_numbers.Pop();
+				double second_number = stack_with_numbers.pop();
+				double first_number = stack_with_numbers.pop();
 				double res = 0;
-				Function a = Stack_with_symbol.Pop();
+				Function a = Stack_with_symbol.pop();
 
 				switch (a)
 				{
@@ -329,14 +329,14 @@ double TCalc::Calculator()
 					res = pow(first_number, second_number);
 					break;
 				}
-				stack_with_numbers.Push(res);
+				stack_with_numbers.push(res);
 			}
-			Stack_with_symbol.Push(op);
+			Stack_with_symbol.push(op);
 		}
 	}
 
-	double result_with_stack = stack_with_numbers.Pop();
-	if (!stack_with_numbers.Empty())
+	double result_with_stack = stack_with_numbers.pop();
+	if (!stack_with_numbers.isEmpty())
 		throw - 1;
 
 	return result_with_stack;

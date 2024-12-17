@@ -129,7 +129,6 @@
   <ItemGroup>
     <ClCompile Include="calc.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="stack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="calc.h" />

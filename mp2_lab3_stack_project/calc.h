@@ -24,8 +24,8 @@ private:
 	std::string infix;
 	std::string postfix;
 
-	TStack<double> stack_with_numbers;
-	TStack<Function> Stack_with_symbol;
+	LLStack<double> stack_with_numbers;
+	LLStack<Function> Stack_with_symbol;
 
 	bool Check(std::string str);
 	int Priority(Function a);
