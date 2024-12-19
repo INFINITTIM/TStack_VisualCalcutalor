@@ -4,7 +4,6 @@
 #include "../mp2_lab3_stack_project/calc.h"
 #include "../mp2_lab3_stack_project/stack.h"
 #include "../mp2_lab3_stack_project/calc.cpp"
-#include "../mp2_lab3_stack_project/stack.cpp"
 #include <msclr/marshal_cppstd.h>
 
 namespace CppWinForm1 {

@@ -8,7 +8,7 @@ int main()
 {
 	TCalc a;
 
-	std::string str = "3*34/sin(pi/2)+5^(exp(2)+(3+(-3)*45+(34+2)+11*(-1)))";
+	std::string str = "(exp(2)+(sin(pi/2))-3+1000*3)*100+(-1)";
 
 	a.SetInfix(str);
 

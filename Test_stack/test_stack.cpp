@@ -66,7 +66,7 @@ TEST(LLStack, compare_stacks) {
     m.push(2);
 
     LLStack<int> m1(m);
-    EXPECT_TRUE(m == m1);
+    EXPECT_EQ(m, m1);
 }
 
 TEST(LLStack, no_compare_stack) {
@@ -78,7 +78,7 @@ TEST(LLStack, no_compare_stack) {
     m1.push(10);
     m1.push(5);
 
-    EXPECT_TRUE(m != m1);
+    EXPECT_NE(m, m1);
 }
 
 TEST(LLStack, throws_when_try_pop_elem_from_empty_stack) {
@@ -96,7 +96,7 @@ TEST(LLStack, copied_stack_is_equal_to_source_one) {
     m.push(1);
     m.push(2);
     LLStack<int> m1(m);
-    EXPECT_TRUE(m == m1);
+    EXPECT_EQ(m, m1);
 }
 
 TEST(LLStack, stacks_with_different_content_not_equal) {
@@ -104,7 +104,7 @@ TEST(LLStack, stacks_with_different_content_not_equal) {
     LLStack<int> m1;
     m.push(1);
     m1.push(2);
-    EXPECT_TRUE(m != m1);
+    EXPECT_NE(m, m1);
 }
 
 TEST(TCalc, add_in_calc)
@@ -182,9 +182,8 @@ TEST(TCalc, cos_in_calc)
     TCalc a;
     std::string str = "cos(pi)";
     a.SetInfix(str);
-    double res = -1;
     double my_res = a.Calculator();
-    EXPECT_EQ(res, my_res);
+    EXPECT_EQ(-1, my_res);
 }
 
 
@@ -193,20 +192,18 @@ TEST(TCalc, exp_in_calc)
     TCalc a;
     std::string str = "exp(2)";
     a.SetInfix(str);
-    double res = 7.38906;
     double my_res = a.Calculator();
-    EXPECT_EQ(res, my_res);
+    EXPECT_EQ(7.38906, my_res);
 }
 
 
 TEST(TCalc, hard_expression_in_calc)
 {
     TCalc a;
-    std::string str = "3*34/sin(pi/2)+5^(exp(2)+(3+(-3)*45+(34+2)+11*(-1)))";
+    std::string str = "(exp(2)+(sin(pi/2))-3+1000*3)*100+(-1)";
     a.SetInfix(str);
-    double res = 102;
     double my_res = a.Calculator();
-    EXPECT_EQ(res, my_res);
+    EXPECT_EQ(300537.906, my_res);
 }
 
 TEST(TCalc, wrong_scobs)
